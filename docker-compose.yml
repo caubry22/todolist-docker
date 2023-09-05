@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:13
+    container_name: db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: azerty
+      POSTGRES_DB: test
+    networks:
+      - todolist
+
+  back:
+    build: back
+    container_name: back
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: azerty
+      POSTGRES_DB: test
+    ports:
+      - "8000:8000"
+    networks:
+      - todolist
+    command: npm run start
+    depends_on:
+      - db
+
+  front:
+    build: front
+    container_name: front
+    depends_on:
+      - back
+    ports:
+      - "8080:8080"
+    networks:
+      - todolist
+    expose:
+      - 8080
+
+# volumes:
+#   db:
+#     driver: local
+#     driver_opts:
+#       type: none
+#       o: bind
+#       device: /mnt/nfs/homes/caubry/Desktop/todolist/db_volume
+  
+networks:
+  todolist:
