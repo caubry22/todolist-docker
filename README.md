@@ -1,2 +1,2 @@
 # todolist
-TodoList full stack using nestjs and Vuejs
+TodoList full stack using nestjs postgresql and Vuejs
